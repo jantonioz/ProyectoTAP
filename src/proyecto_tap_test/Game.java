@@ -46,24 +46,24 @@ public class Game extends JPanel {
         return new Point(MouseInfo.getPointerInfo().getLocation().x - 4, MouseInfo.getPointerInfo().getLocation().y - 28);
     }
 
-    public void update() {
+    public void actualizar() {
         Point p = MouseInfo.getPointerInfo().getLocation();
         xpos = getMCursor().x;
         ypos = getMCursor().y;
 
-        particula.Update(getMCursor());
+        particula.Actualizar(getMCursor());
     }
 
     public void paintComponent(Graphics g) {
-        clear(g);
+        limpiar(g);
 
         g.setColor(Color.WHITE);
         for(Pared p : paredes) 
-            p.Draw(g);
-        particula.Draw(g, paredes);
+            p.Dibujar(g);
+        particula.Dibujar(g, paredes);
     }
 
-    public void clear(Graphics g) {
+    public void limpiar(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, 800, 450);
     }

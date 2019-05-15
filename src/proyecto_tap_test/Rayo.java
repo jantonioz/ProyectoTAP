@@ -13,32 +13,32 @@ import java.awt.Point;
  *
  * @author josea
  */
-public class Ray {
+public class Rayo {
 
-    Point start;
+    Point inicio;
     int r = 30;
     Point dir;
-    int angle;
+    int angulo;
 
-    public Ray(Point start, int angle) {
-        this.start = start;
+    public Rayo(Point start, int angle) {
+        this.inicio = start;
         this.dir = calcDir();
-        this.angle = angle;
+        this.angulo = angle;
     }
 
-    public void Update(Point p) {
-        this.start = new Point(p.x, p.y);
+    public void Actualizar(Point p) {
+        this.inicio = new Point(p.x, p.y);
         dir = calcDir();
     }
 
-    public void setEnd(Point pt) {
-        this.dir.x = pt.x - start.x;
-        this.dir.y = pt.y - start.y;
+    public void setFin(Point pt) {
+        this.dir.x = pt.x - inicio.x;
+        this.dir.y = pt.y - inicio.y;
     }
 
     public Point calcDir() {
-        double x = (int) (Math.cos((angle * Math.PI) / 180.0) * r);
-        double y = (int) (Math.sin((angle * Math.PI) / 180.0) * r);
+        double x = (int) (Math.cos((angulo * Math.PI) / 180.0) * r);
+        double y = (int) (Math.sin((angulo * Math.PI) / 180.0) * r);
         return new Point((int) (x), (int) (y));
     }
 
@@ -48,10 +48,10 @@ public class Ray {
         int x2 = p.b.x;
         int y2 = p.b.y;
 
-        int x3 = start.x;
-        int y3 = start.y;
-        int x4 = start.x + dir.x;
-        int y4 = start.y + dir.y;
+        int x3 = inicio.x;
+        int y3 = inicio.y;
+        int x4 = inicio.x + dir.x;
+        int y4 = inicio.y + dir.y;
 
         // SI ES 0 entonces son paralelas las lineas;
         int den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
@@ -74,8 +74,8 @@ public class Ray {
         }
     }
 
-    public void Draw(Graphics g) {
+    public void Dibujar(Graphics g) {
         g.setColor(new Color(1, 1, 1, 0.20f));
-        g.drawLine(start.x, start.y, start.x + dir.x, start.y + dir.y);
+        g.drawLine(inicio.x, inicio.y, inicio.x + dir.x, inicio.y + dir.y);
     }
 }

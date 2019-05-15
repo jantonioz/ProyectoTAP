@@ -15,7 +15,7 @@ public class Pared {
         this.b = new Point(x2, y2);
     }
     
-    public void Draw(Graphics g) {
+    public void Dibujar(Graphics g) {
         g.setColor(Color.WHITE);
         g.drawLine(a.x, a.y, b.x, b.y);
     }
