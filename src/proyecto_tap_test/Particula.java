@@ -19,7 +19,7 @@ public class Particula {
     int[] Posicion;
     private Frame frame;
     int w, h;
-    final int CANTRAYOS = 360;
+    final int CANTRAYOS = 360 * 3;
     Rayo[] rayos = new Rayo[CANTRAYOS];
     
     public Particula() {
@@ -28,7 +28,7 @@ public class Particula {
         h = 10;
 
         for (int i = 0; i < CANTRAYOS; i++) {
-            rayos[i] = new Rayo(new Point(0, 0), i * (int) (360.0 / CANTRAYOS));
+            rayos[i] = new Rayo(new PointF(0, 0), i * (360.0 / CANTRAYOS));
         }
 
     }
@@ -38,7 +38,7 @@ public class Particula {
         this.Posicion[1] = p.y;
 
         for (int i = 0; i < CANTRAYOS; i++) {
-            rayos[i].Actualizar(p);
+            rayos[i].Actualizar(new PointF(p.x, p.y));
         }
     }
 
@@ -46,10 +46,10 @@ public class Particula {
         g.fillArc(this.Posicion[0] - w / 2, this.Posicion[1] - h / 2, w, h, 0, 360);
 
         for (Rayo r : rayos) {
-            Point closest = null;
+            PointF closest = null;
             double record = Double.MAX_VALUE;
             for (Pared p : paredes) {
-                Point pt = r.Cast(p);
+                PointF pt = r.Cast(p);
                 if (pt != null) {
                     double d = Math.sqrt(Math.pow(Posicion[0] - pt.x ,2) + Math.pow(Posicion[1] - pt.y, 2));
                     if (d < record) {

@@ -79,28 +79,23 @@ public class Ventana extends java.awt.Frame {
 
     //Se debe correr en otro hilo!
     private void gameLoop() {
-        //This value would probably be stored elsewhere.
         //Este valor probablemente será almacenado en otra parte.
         final double GAME_HERTZ = 30.0;
-        //Calculate how many ns each frame should take for our target game hertz.
         //Calcular cuántos nanosegundos tomará cada frame para conseguir los hertz deseados
         final double TIEMPO_ENTRE_ACTUALIZACIONES = 1000000000 / GAME_HERTZ;
-        //At the very most we will update the game this many times before a new render.
         //If you're worried about visual hitches more than perfect timing, set this to 1.
         final int MAX_ACTUALIZACIONES_PRE_RENDERIZAR = 5;
-        //We will need the last update time.
+
         //Último tiempo de actualización.
         double ultTiempoActualizacion = System.nanoTime();
-        //Store the last time we rendered.
+
         //Último tiempo de renderizado.
         double ultTiempoRenderizado = System.nanoTime();
 
-        //If we are able to get as high as this FPS, don't render again.
         //Si es posible conseguir estos FPS, no volver a renderizar.
         final double TARGET_FPS = 60;
         final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
-        //Simple way of finding FPS.
         //Manera simple de encontrar FPS.
         int lastSecondTime = (int) (ultTiempoActualizacion / 1000000000);
 
@@ -109,25 +104,18 @@ public class Ventana extends java.awt.Frame {
             int contActualizaciones = 0;
 
             if (!pausado) {
-                //Do as many game updates as we need to, potentially playing catchup.
                 //Actualizar el juego las veces que sea necesario
                 while (now - ultTiempoActualizacion > TIEMPO_ENTRE_ACTUALIZACIONES && contActualizaciones < MAX_ACTUALIZACIONES_PRE_RENDERIZAR) {
-                    //System.out.println("UPDATE");
                     actualizarJuego();
                     ultTiempoActualizacion += TIEMPO_ENTRE_ACTUALIZACIONES;
                     contActualizaciones++;
                 }
 
-                //If for some reason an update takes forever, we don't want to do an insane number of catchups.
-                //If you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
                 if (now - ultTiempoActualizacion > TIEMPO_ENTRE_ACTUALIZACIONES) {
                     ultTiempoActualizacion = now - TIEMPO_ENTRE_ACTUALIZACIONES;
                 }
 
-                //Render. To do so, we need to calculate interpolation for a smooth render.
-                //Renderizar, Se necesita calcular la interpolación para un renderizado suave
-                float interpolacion = Math.min(1.0f, (float) ((now - ultTiempoActualizacion) / TIEMPO_ENTRE_ACTUALIZACIONES));
-                dibujarJuego(interpolacion);
+                dibujarJuego();
                 ultTiempoRenderizado = now;
 
                 //Update the frames we got.
@@ -166,9 +154,8 @@ public class Ventana extends java.awt.Frame {
       game.actualizar();
    }
    
-   private void dibujarJuego(float interpolation)
+   private void dibujarJuego()
    {
-      //game.setInterpolation(interpolation);
       game.repaint();
    }
 

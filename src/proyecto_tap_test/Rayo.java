@@ -7,7 +7,6 @@ package proyecto_tap_test;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
 
 /**
  *
@@ -15,59 +14,59 @@ import java.awt.Point;
  */
 public class Rayo {
 
-    Point inicio;
+    PointF inicio;
     int r = 30;
-    Point dir;
-    int angulo;
+    PointF dir;
+    double angulo;
 
-    public Rayo(Point start, int angle) {
+    public Rayo(PointF start, double angle) {
         this.inicio = start;
         this.dir = calcDir();
         this.angulo = angle;
     }
 
-    public void Actualizar(Point p) {
-        this.inicio = new Point(p.x, p.y);
+    public void Actualizar(PointF p) {
+        this.inicio = new PointF(p.x, p.y);
         dir = calcDir();
     }
 
-    public void setFin(Point pt) {
+    public void setFin(PointF pt) {
         this.dir.x = pt.x - inicio.x;
         this.dir.y = pt.y - inicio.y;
     }
 
-    public Point calcDir() {
-        double x = (int) (Math.cos((angulo * Math.PI) / 180.0) * r);
-        double y = (int) (Math.sin((angulo * Math.PI) / 180.0) * r);
-        return new Point((int) (x), (int) (y));
+    public PointF calcDir() {
+        float x = (float) (Math.cos((angulo * Math.PI) / 180.0) * r);
+        float y = (float) (Math.sin((angulo * Math.PI) / 180.0) * r);
+        return new PointF( (x),  (y));
     }
 
-    public Point Cast(Pared p) {
-        int x1 = p.a.x;
-        int y1 = p.a.y;
-        int x2 = p.b.x;
-        int y2 = p.b.y;
+    public PointF Cast(Pared p) {
+        float x1 = p.a.x;
+        float y1 = p.a.y;
+        float x2 = p.b.x;
+        float y2 = p.b.y;
 
-        int x3 = inicio.x;
-        int y3 = inicio.y;
-        int x4 = inicio.x + dir.x;
-        int y4 = inicio.y + dir.y;
+        float x3 = inicio.x;
+        float y3 = inicio.y;
+        float x4 = inicio.x + dir.x;
+        float y4 = inicio.y + dir.y;
 
         // SI ES 0 entonces son paralelas las lineas;
-        int den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+        float den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
         if (den == 0) {
 
             return null;
         }
 
-        double t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4));
+        float t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4));
         t = t / den;
-        double u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3));
+        float u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3));
         u = u / den;
 
         if (t > 0 && t < 1 && u > 0) {
 
-            return new Point((int) (x1 + t * (x2 - x1)), (int) (y1 + t * (y2 - y1)));
+            return new PointF( (x1 + t * (x2 - x1)),  (y1 + t * (y2 - y1)));
         } else {
 
             return null;
@@ -75,7 +74,7 @@ public class Rayo {
     }
 
     public void Dibujar(Graphics g) {
-        g.setColor(new Color(1, 1, 1, 0.20f));
-        g.drawLine(inicio.x, inicio.y, inicio.x + dir.x, inicio.y + dir.y);
+        g.setColor(new Color(1, 1, 1, 0.40f));
+        g.drawLine((int) inicio.x, (int) inicio.y, (int) (inicio.x + dir.x), (int) (inicio.y + dir.y));
     }
 }
