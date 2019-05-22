@@ -19,7 +19,7 @@ public class Particula {
     int[] Posicion;
     private Frame frame;
     int w, h;
-    final int CANTRAYOS = 360 * 3;
+    final int CANTRAYOS = 200;
     Rayo[] rayos = new Rayo[CANTRAYOS];
     
     public Particula() {

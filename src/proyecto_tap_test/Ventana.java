@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import static java.lang.Thread.sleep;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,7 +18,8 @@ import static java.lang.Thread.sleep;
 public class Ventana extends java.awt.Frame {
 
     Particula particula;
-    Game game = new Game();
+    Dimension d = new Dimension(1280, 720);
+    Game game;
     private boolean corriendo = false;
     private boolean pausado = false;
     private int fps = 60;
@@ -25,7 +27,8 @@ public class Ventana extends java.awt.Frame {
 
     public Ventana() {
         initComponents();
-        this.setSize(new Dimension(800, 450));
+        game = new Game(d);
+        this.setSize(d);
         this.add(this.game);
         runGameLoop();
     }
@@ -64,6 +67,9 @@ public class Ventana extends java.awt.Frame {
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         if (evt.getKeyCode() == 27)
             System.exit(0);
+        else if(evt.getKeyCode() == 10)
+            JOptionPane.showMessageDialog(this, "uwu");
+        
     }//GEN-LAST:event_formKeyPressed
 
     //Inicia un nuevo hilo y corre el game loop en él
@@ -158,6 +164,7 @@ public class Ventana extends java.awt.Frame {
    {
       game.repaint();
    }
+   
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

@@ -38,7 +38,7 @@ public class Rayo {
     public PointF calcDir() {
         float x = (float) (Math.cos((angulo * Math.PI) / 180.0) * r);
         float y = (float) (Math.sin((angulo * Math.PI) / 180.0) * r);
-        return new PointF( (x),  (y));
+        return new PointF((x), (y));
     }
 
     public PointF Cast(Pared p) {
@@ -66,7 +66,7 @@ public class Rayo {
 
         if (t > 0 && t < 1 && u > 0) {
 
-            return new PointF( (x1 + t * (x2 - x1)),  (y1 + t * (y2 - y1)));
+            return new PointF((x1 + t * (x2 - x1)), (y1 + t * (y2 - y1)));
         } else {
 
             return null;
@@ -74,7 +74,29 @@ public class Rayo {
     }
 
     public void Dibujar(Graphics g) {
-        g.setColor(new Color(1, 1, 1, 0.40f));
-        g.drawLine((int) inicio.x, (int) inicio.y, (int) (inicio.x + dir.x), (int) (inicio.y + dir.y));
+        //g.drawLine((int) inicio.x, (int) inicio.y, (int) (inicio.x + dir.x), (int) (inicio.y + dir.y));
+        dibujarLinea(g, (int) inicio.x, (int) inicio.y, (int) (inicio.x + dir.x), (int) (inicio.y + dir.y));
+    }
+
+    private void dibujarLinea(Graphics g, int x1, int y1, int x2, int y2) {
+        double color = 255;
+        double dX = x2 - x1;
+        double dY = y2 - y1;
+        double hyp = Math.hypot(dX, dY);
+        double x = x1;
+        double y = y1;
+
+        double steps = Math.abs(dX) > Math.abs(dY) ? Math.abs(dX) : Math.abs(dY);
+        double incX = dX / steps;
+        double incY = dY / steps;
+
+        for (int i = 0; i <= steps; i++) {
+            double colorAux = color >= 0 ? color : 0;
+            g.setColor(new Color((int) colorAux, (int) colorAux, (int) colorAux));
+            g.drawLine((int) x, (int) y, (int) x, (int) y);
+            x += incX;
+            y += incY;
+            color -= 0.5 * hyp / steps;
+        }
     }
 }

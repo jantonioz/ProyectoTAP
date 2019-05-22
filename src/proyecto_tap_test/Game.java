@@ -6,6 +6,7 @@
 package proyecto_tap_test;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -22,20 +23,22 @@ public class Game extends JPanel {
     Particula particula = new Particula();
     Pared paredes[] = new Pared[4 + 4];
     Random r = new Random();
+    Dimension d;
 
-    public Game() {
+    public Game(Dimension d) {
         this.setLocation(0, 0);
-        this.setSize(800, 450);
-        paredes[0] = new Pared(0    , 0     , 800   , 0);
-        paredes[1] = new Pared(800  , 0     , 800   , 450);
-        paredes[2] = new Pared(0    , 450   , 800   , 450);
-        paredes[3] = new Pared(0    , 0     , 0     , 450);
-        
-        paredes[4] = new Pared(200 + r.nextInt(600), 50 + r.nextInt(300), 200 + r.nextInt(600), 50 + r.nextInt(300));
-        paredes[5] = new Pared(200 + r.nextInt(600), 50 + r.nextInt(300), 200 + r.nextInt(600), 50 + r.nextInt(300));
-        paredes[6] = new Pared(200 + r.nextInt(600), 50 + r.nextInt(300), 200 + r.nextInt(600), 50 + r.nextInt(300));
-        paredes[7] = new Pared(200 + r.nextInt(600), 50 + r.nextInt(300), 200 + r.nextInt(600), 50 + r.nextInt(300));
-        
+        this.d = d;
+        this.setSize(d);
+        paredes[0] = new Pared(0, 0, (int)d.getWidth(), 0);
+        paredes[1] = new Pared((int)d.getWidth(), 0, (int)d.getWidth(), (int)d.getHeight());
+        paredes[2] = new Pared(0, (int)d.getHeight(), (int)d.getWidth(), (int)d.getHeight());
+        paredes[3] = new Pared(0, 0, 0, (int)d.getHeight());
+
+        paredes[4] = new Pared(200 + r.nextInt((int)d.getWidth() - 200), 50 + r.nextInt((int)d.getHeight() - 100), 200 + r.nextInt((int)d.getWidth() - 200), 50 + r.nextInt((int)d.getHeight() - 100));
+        paredes[5] = new Pared(200 + r.nextInt((int)d.getWidth() - 200), 50 + r.nextInt((int)d.getHeight() - 100), 200 + r.nextInt((int)d.getWidth() - 200), 50 + r.nextInt((int)d.getHeight() - 100));
+        paredes[6] = new Pared(200 + r.nextInt((int)d.getWidth() - 200), 50 + r.nextInt((int)d.getHeight() - 100), 200 + r.nextInt((int)d.getWidth() - 200), 50 + r.nextInt((int)d.getHeight() - 100));
+        paredes[7] = new Pared(200 + r.nextInt((int)d.getWidth() - 200), 50 + r.nextInt((int)d.getHeight() - 100), 200 + r.nextInt((int)d.getWidth() - 200), 50 + r.nextInt((int)d.getHeight() - 100));
+
         xpos = 100;
         ypos = 100;
     }
@@ -57,14 +60,15 @@ public class Game extends JPanel {
     public void paintComponent(Graphics g) {
         limpiar(g);
 
-        g.setColor(Color.WHITE);
-        for(Pared p : paredes) 
-            p.Dibujar(g);
         particula.Dibujar(g, paredes);
+        g.setColor(Color.WHITE);
+        for (Pared p : paredes) {
+            p.Dibujar(g);
+        }
     }
 
     public void limpiar(Graphics g) {
         g.setColor(Color.BLACK);
-        g.fillRect(0, 0, 800, 450);
+        g.fillRect(0, 0, (int)d.getWidth(), (int)d.getHeight());
     }
 }
