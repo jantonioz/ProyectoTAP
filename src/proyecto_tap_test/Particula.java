@@ -19,8 +19,9 @@ public class Particula {
     int[] Posicion;
     private Frame frame;
     int w, h;
-    final int CANTRAYOS = 200;
+    int CANTRAYOS = 200;
     Rayo[] rayos = new Rayo[CANTRAYOS];
+    Color mColor = new Color(255, 255, 255);
     
     public Particula() {
         Posicion = new int[2];
@@ -62,8 +63,22 @@ public class Particula {
             if (closest != null) {
                 g.setColor(Color.WHITE);
                 r.setFin(closest);
-                r.Dibujar(g);
+                r.Dibujar(g, mColor);
             }
         }
+    }
+    
+    public void setRayos(int cant) {
+        if (cant == CANTRAYOS)
+            return;
+        CANTRAYOS = cant;
+        rayos = new Rayo[cant];
+        for (int i = 0; i < CANTRAYOS; i++) {
+            rayos[i] = new Rayo(new PointF(0, 0), i * (360.0 / CANTRAYOS));
+        }
+    }
+
+    void setColorRayos(Color color) {
+        this.mColor = color;
     }
 }

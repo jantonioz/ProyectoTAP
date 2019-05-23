@@ -8,7 +8,10 @@ package proyecto_tap_test;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import static java.lang.Thread.sleep;
+import javafx.scene.input.KeyCode;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,7 +20,7 @@ import javax.swing.JOptionPane;
  */
 public class Ventana extends java.awt.Frame {
 
-    Particula particula;
+    Particula particula; // WTF
     Dimension d = new Dimension(1280, 720);
     Game game;
     private boolean corriendo = false;
@@ -25,12 +28,41 @@ public class Ventana extends java.awt.Frame {
     private int fps = 60;
     private int frameCount = 0;
 
+    private Status statusDialog;
+
     public Ventana() {
         initComponents();
+        statusDialog = new Status();
         game = new Game(d);
         this.setSize(d);
         this.add(this.game);
         runGameLoop();
+
+        this.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    System.exit(0);
+                }
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_S) {
+                    System.out.println("" + statusDialog.isVisible());
+                    statusDialog.setVisible(!statusDialog.isVisible());
+                    setAlwaysOnTop(!statusDialog.isVisible());
+                    statusDialog.setFocusable(statusDialog.isVisible());
+                    statusDialog.setAlwaysOnTop(statusDialog.isVisible());
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -65,11 +97,12 @@ public class Ventana extends java.awt.Frame {
     }//GEN-LAST:event_exitForm
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        if (evt.getKeyCode() == 27)
+        if (evt.getKeyCode() == 27) {
             System.exit(0);
-        else if(evt.getKeyCode() == 10)
+        } else if (evt.getKeyCode() == 10) {
             JOptionPane.showMessageDialog(this, "uwu");
-        
+        }
+
     }//GEN-LAST:event_formKeyPressed
 
     //Inicia un nuevo hilo y corre el game loop en él
@@ -85,7 +118,6 @@ public class Ventana extends java.awt.Frame {
 
     //Se debe correr en otro hilo!
     private void gameLoop() {
-        //Este valor probablemente será almacenado en otra parte.
         final double GAME_HERTZ = 30.0;
         //Calcular cuántos nanosegundos tomará cada frame para conseguir los hertz deseados
         final double TIEMPO_ENTRE_ACTUALIZACIONES = 1000000000 / GAME_HERTZ;
@@ -124,47 +156,53 @@ public class Ventana extends java.awt.Frame {
                 dibujarJuego();
                 ultTiempoRenderizado = now;
 
-                //Update the frames we got.
                 //Actualizar los frames obtenidos
                 int thisSecond = (int) (ultTiempoActualizacion / 1000000000);
                 if (thisSecond > lastSecondTime) {
-                    //System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
                     fps = frameCount;
                     frameCount = 0;
                     lastSecondTime = thisSecond;
                 }
 
-                //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
                 while (now - ultTiempoRenderizado < TARGET_TIME_BETWEEN_RENDERS && now - ultTiempoActualizacion < TIEMPO_ENTRE_ACTUALIZACIONES) {
-                    Thread.yield();
-
-                    //This stops the app from consuming all your CPU. It makes this slightly less accurate, but is worth it.
-                    //You can remove this line and it will still work (better), your CPU just climbs on certain OSes.
-                    //FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a look at different peoples' solutions to this.
-                    //Esto impide que la app consuma todo el CPU. Se vuelve un poco menos preciso, pero vale la pena.
-                    //Se puede remover esta linea y seguirá funcionado (mejor), el uso de CPU solo sube en algunos sistemas.
-                    //
                     try {
+                        Thread.yield();
                         Thread.sleep(1);
                     } catch (Exception e) {
                     }
-
                     now = System.nanoTime();
                 }
             }
         }
     }
-    
-    private void actualizarJuego()
-   {
-      game.actualizar();
-   }
-   
-   private void dibujarJuego()
-   {
-      game.repaint();
-   }
-   
+
+    private void actualizarJuego() {
+        game.actualizar();
+        game.particula.setColorRayos(statusDialog.getColor());
+        statusDialog.setFps(fps);
+        if (statusDialog.hayCambios) {
+            statusDialog.hayCambios = false;
+            loadChanges();
+        }
+    }
+
+    private void loadChanges() {
+        try {
+            if (statusDialog.getDim() != null) {
+                this.d = statusDialog.getDim();
+                this.setSize(d);
+                game.updateDim(d);
+            }
+            game.particula.setRayos(statusDialog.getCantRayos());
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void dibujarJuego() {
+        game.repaint();
+        frameCount++;
+    }
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
