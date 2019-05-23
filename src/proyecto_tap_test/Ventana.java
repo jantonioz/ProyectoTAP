@@ -85,7 +85,6 @@ public class Ventana extends java.awt.Frame {
 
     //Se debe correr en otro hilo!
     private void gameLoop() {
-        //Este valor probablemente será almacenado en otra parte.
         final double GAME_HERTZ = 30.0;
         //Calcular cuántos nanosegundos tomará cada frame para conseguir los hertz deseados
         final double TIEMPO_ENTRE_ACTUALIZACIONES = 1000000000 / GAME_HERTZ;
@@ -124,31 +123,18 @@ public class Ventana extends java.awt.Frame {
                 dibujarJuego();
                 ultTiempoRenderizado = now;
 
-                //Update the frames we got.
                 //Actualizar los frames obtenidos
                 int thisSecond = (int) (ultTiempoActualizacion / 1000000000);
                 if (thisSecond > lastSecondTime) {
-                    //System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
                     fps = frameCount;
                     frameCount = 0;
                     lastSecondTime = thisSecond;
                 }
 
-                //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
                 while (now - ultTiempoRenderizado < TARGET_TIME_BETWEEN_RENDERS && now - ultTiempoActualizacion < TIEMPO_ENTRE_ACTUALIZACIONES) {
-                    Thread.yield();
-
-                    //This stops the app from consuming all your CPU. It makes this slightly less accurate, but is worth it.
-                    //You can remove this line and it will still work (better), your CPU just climbs on certain OSes.
-                    //FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a look at different peoples' solutions to this.
-                    //Esto impide que la app consuma todo el CPU. Se vuelve un poco menos preciso, pero vale la pena.
-                    //Se puede remover esta linea y seguirá funcionado (mejor), el uso de CPU solo sube en algunos sistemas.
-                    //
                     try {
                         Thread.sleep(1);
-                    } catch (Exception e) {
-                    }
-
+                    } catch (Exception e) {}
                     now = System.nanoTime();
                 }
             }
