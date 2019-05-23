@@ -166,7 +166,7 @@ public class Ventana extends java.awt.Frame {
 
                 while (now - ultTiempoRenderizado < TARGET_TIME_BETWEEN_RENDERS && now - ultTiempoActualizacion < TIEMPO_ENTRE_ACTUALIZACIONES) {
                     try {
-                        Thread.yield();
+                        
                         Thread.sleep(1);
                     } catch (Exception e) {
                     }
