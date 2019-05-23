@@ -18,11 +18,13 @@ public class Rayo {
     int r = 30;
     PointF dir;
     double angulo;
+    Color mColor;
 
     public Rayo(PointF start, double angle) {
         this.inicio = start;
         this.dir = calcDir();
         this.angulo = angle;
+        mColor = new Color(255, 255, 255);
     }
 
     public void Actualizar(PointF p) {
@@ -73,13 +75,16 @@ public class Rayo {
         }
     }
 
-    public void Dibujar(Graphics g) {
+    public void Dibujar(Graphics g, Color col) {
+        this.mColor = col;
         //g.drawLine((int) inicio.x, (int) inicio.y, (int) (inicio.x + dir.x), (int) (inicio.y + dir.y));
         dibujarLinea(g, (int) inicio.x, (int) inicio.y, (int) (inicio.x + dir.x), (int) (inicio.y + dir.y));
     }
 
     private void dibujarLinea(Graphics g, int x1, int y1, int x2, int y2) {
-        double color = 255;
+        double colorR = mColor.getRed();
+        double colorG = mColor.getGreen();
+        double colorB = mColor.getBlue();
         double dX = x2 - x1;
         double dY = y2 - y1;
         double hyp = Math.hypot(dX, dY);
@@ -91,12 +96,20 @@ public class Rayo {
         double incY = dY / steps;
 
         for (int i = 0; i <= steps; i++) {
-            double colorAux = color >= 0 ? color : 0;
-            g.setColor(new Color((int) colorAux, (int) colorAux, (int) colorAux));
+            double colorAuxR = Math.max(colorR, 0);
+            double colorAuxG = Math.max(colorG, 0);
+            double colorAuxB = Math.max(colorB, 0);
+            g.setColor(new Color((int) colorAuxR, (int) colorAuxG, (int) colorAuxB));
             g.drawLine((int) x, (int) y, (int) x, (int) y);
             x += incX;
             y += incY;
-            color -= 0.5 * hyp / steps;
+            colorR -= 0.5 * hyp / steps;
+            colorG -= 0.5 * hyp / steps;
+            colorB -= 0.5 * hyp / steps;
         }
+    }
+    
+    public void setColor(Color col) {
+        this.mColor = new Color(col.getRGB());
     }
 }

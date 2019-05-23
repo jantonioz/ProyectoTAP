@@ -6,10 +6,12 @@
 package proyecto_tap_test;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 import javax.swing.JPanel;
 
@@ -29,6 +31,18 @@ public class Game extends JPanel {
         this.setLocation(0, 0);
         this.d = d;
         this.setSize(d);
+        this.setCursor(getToolkit().createCustomCursor(
+                   new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB ),
+                   new Point(),
+                   null ) );
+        
+        loadWalls();
+
+        xpos = 100;
+        ypos = 100;
+    }
+    
+    private void loadWalls() {
         paredes[0] = new Pared(0, 0, (int)d.getWidth(), 0);
         paredes[1] = new Pared((int)d.getWidth(), 0, (int)d.getWidth(), (int)d.getHeight());
         paredes[2] = new Pared(0, (int)d.getHeight(), (int)d.getWidth(), (int)d.getHeight());
@@ -38,11 +52,8 @@ public class Game extends JPanel {
         paredes[5] = new Pared(200 + r.nextInt((int)d.getWidth() - 200), 50 + r.nextInt((int)d.getHeight() - 100), 200 + r.nextInt((int)d.getWidth() - 200), 50 + r.nextInt((int)d.getHeight() - 100));
         paredes[6] = new Pared(200 + r.nextInt((int)d.getWidth() - 200), 50 + r.nextInt((int)d.getHeight() - 100), 200 + r.nextInt((int)d.getWidth() - 200), 50 + r.nextInt((int)d.getHeight() - 100));
         paredes[7] = new Pared(200 + r.nextInt((int)d.getWidth() - 200), 50 + r.nextInt((int)d.getHeight() - 100), 200 + r.nextInt((int)d.getWidth() - 200), 50 + r.nextInt((int)d.getHeight() - 100));
-
-        xpos = 100;
-        ypos = 100;
     }
-
+    
     public Point getMCursor() {
         Point screen = getLocation();
 
@@ -55,6 +66,11 @@ public class Game extends JPanel {
         ypos = getMCursor().y;
 
         particula.Actualizar(getMCursor());
+    }
+    
+    public void updateDim(Dimension dim) {
+        this.d = dim;
+        loadWalls();
     }
 
     public void paintComponent(Graphics g) {
