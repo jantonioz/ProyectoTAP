@@ -7,12 +7,17 @@ package proyecto_tap_test;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import static java.lang.Thread.sleep;
-import javafx.scene.input.KeyCode;
+import java.text.DateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 
 /**
  *
@@ -33,10 +38,12 @@ public class Ventana extends java.awt.Frame {
     public Ventana() {
         initComponents();
         statusDialog = new Status();
+        statusDialog.setDefaultCloseOperation(HIDE_ON_CLOSE);
         game = new Game(d);
         this.setSize(d);
         this.add(this.game);
         runGameLoop();
+        fileLoop();
 
         this.addKeyListener(new KeyListener() {
             @Override
@@ -55,6 +62,14 @@ public class Ventana extends java.awt.Frame {
                     setAlwaysOnTop(!statusDialog.isVisible());
                     statusDialog.setFocusable(statusDialog.isVisible());
                     statusDialog.setAlwaysOnTop(statusDialog.isVisible());
+                } else if (e.getKeyCode() == KeyEvent.VK_G) {
+                    try {
+                        FileWriter fw = new FileWriter("xd.txt");
+                        fw.write("xd");
+                        fw.close();
+                    } catch (IOException ex) {
+
+                    }
                 }
             }
 
@@ -104,6 +119,34 @@ public class Ventana extends java.awt.Frame {
         }
 
     }//GEN-LAST:event_formKeyPressed
+
+    public void fileLoop() {
+        Thread loop = new Thread() {
+            public void run() {
+                while (true) {
+                    try (FileWriter fw = new FileWriter("log.txt", true);
+                            BufferedWriter bw = new BufferedWriter(fw);
+                            PrintWriter out = new PrintWriter(bw)) {
+                        DateFormat date = DateFormat.getDateTimeInstance();
+                        out.print("[" + date.format(new Date()) + "]");
+                        Color color = game.particula.mColor;
+                        out.print(" Color: " + String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue()));
+                        int[] posicion = game.particula.Posicion;
+                        out.print(" Posicion: (" + posicion[0] + ", " + posicion[1] + ")");
+                        out.println();
+                    } catch (IOException e) {
+                        //exception handling left as an exercise for the reader
+                    }
+                    try {
+                        sleep(1000);
+                    } catch (InterruptedException ex) {
+
+                    }
+                }
+            }
+        };
+        loop.start();
+    }
 
     //Inicia un nuevo hilo y corre el game loop en él
     public void runGameLoop() {
@@ -166,7 +209,7 @@ public class Ventana extends java.awt.Frame {
 
                 while (now - ultTiempoRenderizado < TARGET_TIME_BETWEEN_RENDERS && now - ultTiempoActualizacion < TIEMPO_ENTRE_ACTUALIZACIONES) {
                     try {
-                        
+
                         Thread.sleep(1);
                     } catch (Exception e) {
                     }
