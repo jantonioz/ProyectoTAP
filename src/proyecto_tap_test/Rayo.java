@@ -20,6 +20,11 @@ public class Rayo {
     double angulo;
     Color mColor;
 
+    /**
+     * Constructor de un rayo, con un punto inicial y un angulo de proyección
+     * @param start Punto inicial del rayo
+     * @param angle Angulo fijo de proyeccion
+     */
     public Rayo(PointF start, double angle) {
         this.inicio = start;
         this.dir = calcDir();
@@ -27,22 +32,40 @@ public class Rayo {
         mColor = new Color(255, 255, 255);
     }
 
+    /**
+     * Actualiza el punto inicial del rayo
+     * @param p Punto a donde debe actualizarse
+     */
     public void Actualizar(PointF p) {
         this.inicio = new PointF(p.x, p.y);
         dir = calcDir();
     }
 
+    /**
+     * Cuando colisiona con algo se pone el fin del rayo
+     * @param pt Punto final del rayo
+     */
     public void setFin(PointF pt) {
         this.dir.x = pt.x - inicio.x;
         this.dir.y = pt.y - inicio.y;
     }
-
+    
+    /**
+     * Retorna un punto final provisional
+     * @return 
+     */
     public PointF calcDir() {
         float x = (float) (Math.cos((angulo * Math.PI) / 180.0) * r);
         float y = (float) (Math.sin((angulo * Math.PI) / 180.0) * r);
         return new PointF((x), (y));
     }
 
+    /**
+     * Usa la formula de Line-Line intersection para calcular un punto de interseccion
+     * entre el rayo y la pared
+     * @param p Pared en la que hará los calculos
+     * @return Un punto donde intersecciona el rayo y la pared cualquiera
+     */
     public PointF Cast(Pared p) {
         float x1 = p.a.x;
         float y1 = p.a.y;
@@ -81,6 +104,14 @@ public class Rayo {
         dibujarLinea(g, (int) inicio.x, (int) inicio.y, (int) (inicio.x + dir.x), (int) (inicio.y + dir.y));
     }
 
+    /**
+     * Utiliza el algoritmo de LinieaDDA para dibujar una linea con degradado a negro
+     * @param g Lienzo
+     * @param x1 Inicio de la linea en X
+     * @param y1 Inicio de la linea en Y
+     * @param x2 Fin de la linea en X
+     * @param y2 Fin de la linea en Y
+     */
     private void dibujarLinea(Graphics g, int x1, int y1, int x2, int y2) {
         double colorR = mColor.getRed();
         double colorG = mColor.getGreen();

@@ -44,7 +44,9 @@ public class Ventana extends java.awt.Frame {
         runGameLoop();
         fileLoop();
 
+        // Crea un evento de escuchar al teclado para posibles eventos
         this.addKeyListener(new KeyListener() {
+            // Cuando la tecla Escape es tipeada entonces cierra por completo el juego
             @Override
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -53,6 +55,7 @@ public class Ventana extends java.awt.Frame {
 
             }
 
+            // Cuando la tecla S es presionada activa la ventana de configuraciones "Status"
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_S) {
@@ -111,6 +114,9 @@ public class Ventana extends java.awt.Frame {
 
     }//GEN-LAST:event_formKeyPressed
 
+    /**
+     * Proporciona un hilo de ejecucion para imprimir datos importantes del juego en un archivo log.txt
+     */
     public void fileLoop() {
         Thread loop = new Thread() {
             public void run() {
@@ -150,7 +156,10 @@ public class Ventana extends java.awt.Frame {
         loop.start();
     }
 
-    //Se debe correr en otro hilo!
+    /**
+     * Es el hilo de ejecucion del juego
+     * Se encarga de controlar cuando actualiza y cuando debe dibujar en pantalla
+     */
     private void gameLoop() {
         final double GAME_HERTZ = 30.0;
         //Calcular cuántos nanosegundos tomará cada frame para conseguir los hertz deseados
@@ -220,6 +229,10 @@ public class Ventana extends java.awt.Frame {
         }
     }
 
+    /**
+     * Cuando detecta algún cambio en la ventana de configuracion entonces esto 
+     * se encarga de hacer efectivos esos cambios
+     */
     private void loadChanges() {
         try {
             if (statusDialog.getDim() != null) {

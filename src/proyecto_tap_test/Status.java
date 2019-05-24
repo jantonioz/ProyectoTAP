@@ -245,6 +245,10 @@ public class Status extends javax.swing.JFrame implements Runnable {
         //hayCambios = true;
     }//GEN-LAST:event_jSliderAzulStateChanged
 
+    /**
+     * Activa el desplazamiento de colores con un hilo nuevo
+     * @param evt 
+     */
     private void jcbFadingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbFadingActionPerformed
         if (jcbFading.isSelected()) {
             t = new Thread(this);
@@ -254,7 +258,10 @@ public class Status extends javax.swing.JFrame implements Runnable {
             t.interrupt();
         }
     }//GEN-LAST:event_jcbFadingActionPerformed
-
+    /**
+     * Activa el cambio de configuracion del juego
+     * @param evt 
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (jTextField1.getText().isEmpty() || jTextField2.getText().isEmpty()) {
             return;
@@ -311,6 +318,9 @@ public class Status extends javax.swing.JFrame implements Runnable {
         this.dim = new Dimension(dimension.width, dimension.height);
     }
 
+    /**
+     * Ejecuta el algoritmo de fading colors 
+     */
     @Override
     public void run() {
         int r = 255, g = 0, b = 0, incR = 0, incG = 0, incB = 0;
