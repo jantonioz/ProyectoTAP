@@ -61,7 +61,7 @@ public class Particula {
             }
             
             if (closest != null) {
-                g.setColor(Color.WHITE);
+                //g.setColor(Color.WHITE);
                 r.setFin(closest);
                 r.Dibujar(g, mColor);
             }

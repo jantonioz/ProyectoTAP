@@ -25,6 +25,8 @@ public class Status extends javax.swing.JFrame implements Runnable {
         initComponents();
         mColor = new Color(255, 255, 255);
         t = new Thread(this);
+        jTextField1.setText(1280 + "");
+        jTextField2.setText(720 + "");
     }
 
     @SuppressWarnings("unchecked")
@@ -35,7 +37,7 @@ public class Status extends javax.swing.JFrame implements Runnable {
         lblDisplayFps = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jSliderRayos = new javax.swing.JSlider();
-        jLabel3 = new javax.swing.JLabel();
+        labelRayos = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -72,7 +74,7 @@ public class Status extends javax.swing.JFrame implements Runnable {
             }
         });
 
-        jLabel3.setText("200");
+        labelRayos.setText("200");
 
         jLabel4.setText("Rojo");
 
@@ -183,7 +185,7 @@ public class Status extends javax.swing.JFrame implements Runnable {
                                 .addGap(18, 18, 18)
                                 .addComponent(jSliderRayos, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)))
                         .addGap(10, 10, 10)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(labelRayos, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -205,7 +207,7 @@ public class Status extends javax.swing.JFrame implements Runnable {
                     .addComponent(lblDisplayFps))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelRayos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSliderRayos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -225,6 +227,7 @@ public class Status extends javax.swing.JFrame implements Runnable {
 
     private void jSliderRayosStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderRayosStateChanged
         cantRayos = jSliderRayos.getValue();
+        labelRayos.setText(String.valueOf(cantRayos));
     }//GEN-LAST:event_jSliderRayosStateChanged
 
     private void jSliderRojoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderRojoStateChanged
@@ -393,7 +396,6 @@ public class Status extends javax.swing.JFrame implements Runnable {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -407,6 +409,7 @@ public class Status extends javax.swing.JFrame implements Runnable {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JCheckBox jcbFading;
+    private javax.swing.JLabel labelRayos;
     private javax.swing.JLabel lblDisplayFps;
     // End of variables declaration//GEN-END:variables
 

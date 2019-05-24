@@ -25,7 +25,6 @@ import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
  */
 public class Ventana extends java.awt.Frame {
 
-    Particula particula; // WTF
     Dimension d = new Dimension(1280, 720);
     Game game;
     private boolean corriendo = false;
@@ -62,14 +61,6 @@ public class Ventana extends java.awt.Frame {
                     setAlwaysOnTop(!statusDialog.isVisible());
                     statusDialog.setFocusable(statusDialog.isVisible());
                     statusDialog.setAlwaysOnTop(statusDialog.isVisible());
-                } else if (e.getKeyCode() == KeyEvent.VK_G) {
-                    try {
-                        FileWriter fw = new FileWriter("xd.txt");
-                        fw.write("xd");
-                        fw.close();
-                    } catch (IOException ex) {
-
-                    }
                 }
             }
 
@@ -87,7 +78,7 @@ public class Ventana extends java.awt.Frame {
         setBackground(java.awt.Color.black);
         setBounds(new java.awt.Rectangle(0, 0, 800, 450));
         setMaximumSize(new java.awt.Dimension(800, 450));
-        setMinimumSize(new java.awt.Dimension(800, 450));
+        setMinimumSize(new java.awt.Dimension(100, 100));
         setPreferredSize(new java.awt.Dimension(800, 450));
         setResizable(false);
         setSize(new java.awt.Dimension(800, 450));
